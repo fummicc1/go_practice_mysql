@@ -1,4 +1,4 @@
-package product
+package diary
 
 import (
 	"encoding/json"
@@ -13,7 +13,15 @@ func FindAll(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		respondWithError(response, http.StatusBadRequest, err.Error())
 	} else {
-		diaryModel := models.DiaryModel
+		diaryModel := models.DiaryModel{
+			DB: db,
+		}
+		diaries, err2 := diaryModel.FindAll()
+		if err2 != nil {
+			respondWithError(response, http.StatusBadRequest, err2.Error())
+		} else {
+			respondWithJson(response, http.StatusOK, diaries)
+		}
 	}
 }
 
