@@ -1,6 +1,10 @@
 package config
 
-import "database/sql"
+import (
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
+)
 
 func GetDB() (db *sql.DB, err error) {
 	dbDriver := "mysql"
@@ -8,5 +12,5 @@ func GetDB() (db *sql.DB, err error) {
 	dbPass := "1234"
 	dbName := "demo6"
 	db, err = sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-	return
+	return db, err
 }
