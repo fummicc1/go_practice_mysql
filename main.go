@@ -12,6 +12,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/diary/findall", diary.FindAll).Methods("GET")
+	router.HandleFunc("/api/diary/search/{sender}", diary.Search).Methods("GET")
 
 	err := http.ListenAndServe(":5000", router)
 	if err != nil {

@@ -3,10 +3,10 @@ package entitles
 import "fmt"
 
 type Diary struct {
-	Id      int64
-	Sender  string
-	Title   string
-	Content string
+	Id      int64  `json:"id"`
+	Sender  string `json:"sender"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
 }
 
 func (diary Diary) ToString() string {
