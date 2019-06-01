@@ -10,7 +10,7 @@ func GetDB() (db *sql.DB, err error) {
 	dbDriver := "mysql"
 	dbUser := "fummicc1"
 	dbPass := "19991004"
-	dbName := "localhost"
+	dbName := "root"
 	db, err = sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
 	return db, err
 }
