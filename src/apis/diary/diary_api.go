@@ -13,7 +13,7 @@ func FindAll(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		respondWithError(response, http.StatusBadRequest, err.Error())
 	} else {
-		diaryModel := models.ProductModel{}
+		diaryModel := models.DiaryModel
 	}
 }
 
