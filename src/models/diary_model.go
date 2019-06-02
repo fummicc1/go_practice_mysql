@@ -65,3 +65,12 @@ func (diaryModel DiaryModel) Search(sender string) (diary []entitles.Diary, err 
 		return diaries, nil
 	}
 }
+
+func (diaryModel DiaryModel) Insert(id int64, sender string, title string, content string) (err error) {
+	insert, err := diaryModel.DB.Prepare("INSERT INTO tbl_diary(id, sender, title, content) VALUES(?, ?, ?, ?)")
+	if err != nil {
+		return err
+	}
+	insert.Exec(id, sender, title, content)
+	return nil
+}

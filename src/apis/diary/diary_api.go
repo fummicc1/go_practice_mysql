@@ -46,6 +46,10 @@ func Search(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
+func Insert(response http.ResponseWriter, request *http.Request) {
+
+}
+
 func respondWithError(w http.ResponseWriter, code int, msg string) {
 	respondWithJson(w, code, map[string]string{"error": msg})
 }
