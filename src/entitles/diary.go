@@ -9,6 +9,15 @@ type Diary struct {
 	Content string `json:"content"`
 }
 
+func (diary Diary) CreateErrorDiary() Diary {
+	return Diary{
+		Id:      0,
+		Sender:  "",
+		Title:   "",
+		Content: "",
+	}
+}
+
 func (diary Diary) ToString() string {
 	return fmt.Sprintf("id: %d\nsender: %s\ntitle: %s\ncontent:%s", diary.Id, diary.Sender, diary.Title, diary.Content)
 }

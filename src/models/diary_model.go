@@ -2,7 +2,6 @@ package models
 
 import (
 	"database/sql"
-	"fmt"
 
 	"github.com/fummicc1/diary_api_go/src/entitles"
 )
@@ -11,12 +10,11 @@ type DiaryModel struct {
 	DB *sql.DB
 }
 
-func (diaryModel DiaryModel) FindAll() (diary []entitles.Diary, err error) {
+func (diaryModel DiaryModel) FindAll() (diaries []entitles.Diary, err error) {
 	rows, err := diaryModel.DB.Query("select * from diary")
 	if err != nil {
 		return nil, err
 	} else {
-		var diaries []entitles.Diary
 		for rows.Next() {
 			var id int64
 			var sender string
@@ -39,12 +37,11 @@ func (diaryModel DiaryModel) FindAll() (diary []entitles.Diary, err error) {
 	}
 }
 
-func (diaryModel DiaryModel) Search(sender string) (diary []entitles.Diary, err error) {
+func (diaryModel DiaryModel) Search(sender string) (diaries []entitles.Diary, err error) {
 	rows, err := diaryModel.DB.Query("select * from diary where sender like ?", "%"+sender+"%")
 	if err != nil {
 		return nil, err
 	} else {
-		var diaries []entitles.Diary
 		for rows.Next() {
 			var id int64
 			var sender string
@@ -67,12 +64,24 @@ func (diaryModel DiaryModel) Search(sender string) (diary []entitles.Diary, err 
 	}
 }
 
-func (diaryModel DiaryModel) Insert(sender string, title string, content string) (err error) {
+func (diaryModel DiaryModel) Insert(sender string, title string, content string) (diary entitles.Diary, err error) {
 	insert, err := diaryModel.DB.Prepare("INSERT INTO diary(sender, title, content) VALUES(?, ?, ?, ?)")
 	if err != nil {
-		return err
+		return nil, err
 	}
-	result, err := insert.Exec(sender, title, content)
-	fmt.Print(result.LastInsertId())
-	return nil
+	result, err2 := insert.Exec(sender, title, content)
+	if err2 != nil {
+		return nil, err2
+	}
+	id, err3 := result.LastInsertId()
+	if err3 != nil {
+		return nil, err3
+	}
+	diary = entitles.Diary{
+		Id:      id,
+		Sender:  sender,
+		Title:   title,
+		Content: content,
+	}
+	return diary, nil
 }
