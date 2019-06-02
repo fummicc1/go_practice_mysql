@@ -67,7 +67,7 @@ func (diaryModel DiaryModel) Search(sender string) (diaries []entitles.Diary, er
 func (diaryModel DiaryModel) Insert(sender string, title string, content string) (diary entitles.Diary, err error) {
 	insert, err := diaryModel.DB.Prepare("INSERT INTO diary(sender, title, content) VALUES(?, ?, ?, ?)")
 	if err != nil {
-		return nil, err
+		return entitles.Diary.CreateErrorDiary(), err
 	}
 	result, err2 := insert.Exec(sender, title, content)
 	if err2 != nil {
