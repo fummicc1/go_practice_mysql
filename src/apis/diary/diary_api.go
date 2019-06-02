@@ -52,19 +52,19 @@ func Search(response http.ResponseWriter, request *http.Request) {
 func Insert(response http.ResponseWriter, request *http.Request) {
 	body, cannnotGetBodyError := ioutil.ReadAll(request.Body)
 	if cannnotGetBodyError != nil {
-		fmt.Print("cannnotGetBodyError")
+		fmt.Print("cannnotGetBodyError\n")
 		respondWithError(response, http.StatusBadRequest, cannnotGetBodyError.Error())
 		return
 	}
 	var diary entitles.Diary
 	if err := json.Unmarshal(body, &diary); err != nil {
-		fmt.Print("cannnotDecodeBodyIntoDiary")
+		fmt.Print("cannnotDecodeBodyIntoDiary\n")
 		respondWithError(response, http.StatusBadRequest, err.Error())
 		return
 	}
 	db, err1 := config.GetDB()
 	if err1 != nil {
-		fmt.Print("cannnotGetDB")
+		fmt.Print("cannnotGetDB\n")
 		respondWithError(response, http.StatusBadRequest, err1.Error())
 	} else {
 		diaryModel := models.DiaryModel{
@@ -72,7 +72,7 @@ func Insert(response http.ResponseWriter, request *http.Request) {
 		}
 		err2 := diaryModel.Insert(diary.Sender, diary.Title, diary.Content)
 		if err2 != nil {
-			fmt.Print("cannotInsertDiaryIntoDiaryTable")
+			fmt.Print("cannotInsertDiaryIntoDiaryTable\n")
 			respondWithError(response, http.StatusBadRequest, err2.Error())
 		} else {
 			respondWithJson(response, http.StatusOK, diary)
