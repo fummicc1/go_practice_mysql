@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/fummicc1/diary_api_go/src/entitles"
 )
@@ -66,11 +67,12 @@ func (diaryModel DiaryModel) Search(sender string) (diary []entitles.Diary, err 
 	}
 }
 
-func (diaryModel DiaryModel) Insert(id int64, sender string, title string, content string) (err error) {
-	insert, err := diaryModel.DB.Prepare("INSERT INTO tbl_diary(id, sender, title, content) VALUES(?, ?, ?, ?)")
+func (diaryModel DiaryModel) Insert(sender string, title string, content string) (err error) {
+	insert, err := diaryModel.DB.Prepare("INSERT INTO diary(sender, title, content) VALUES(?, ?, ?, ?)")
 	if err != nil {
 		return err
 	}
-	insert.Exec(id, sender, title, content)
+	result, err := insert.Exec(sender, title, content)
+	fmt.Print(result.LastInsertId())
 	return nil
 }

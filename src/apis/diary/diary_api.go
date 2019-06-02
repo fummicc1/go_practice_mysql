@@ -47,7 +47,19 @@ func Search(response http.ResponseWriter, request *http.Request) {
 }
 
 func Insert(response http.ResponseWriter, request *http.Request) {
-
+	vars := mux.Vars(request)
+	sender := vars["sender"]
+	title := vars["title"]
+	content := vars["content"]
+	db, err := config.GetDB()
+	if err != nil {
+		respondWithError(response, http.StatusBadRequest, err.Error())
+	} else {
+		diaryModel := models.DiaryModel {
+			DB: db
+		}
+		diaries, err2 := diaryModel.Insert()
+	}
 }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
