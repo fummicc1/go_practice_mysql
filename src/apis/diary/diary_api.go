@@ -3,6 +3,7 @@ package diary
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -49,14 +50,14 @@ func Search(response http.ResponseWriter, request *http.Request) {
 }
 
 func Insert(response http.ResponseWriter, request *http.Request) {
-	body, cannnotGetBodyError := request.GetBody()
+	body, cannnotGetBodyError := ioutil.ReadAll(request.Body)
 	if cannnotGetBodyError != nil {
 		fmt.Print("cannnotGetBodyError")
 		respondWithError(response, http.StatusBadRequest, cannnotGetBodyError.Error())
 		return
 	}
 	var diary entitles.Diary
-	if err := json.NewDecoder(body).Decode(&diary); err != nil {
+	if err := json.Unmarshal(body, &diary); err != nil {
 		fmt.Print("cannnotDecodeBodyIntoDiary")
 		respondWithError(response, http.StatusBadRequest, err.Error())
 		return
