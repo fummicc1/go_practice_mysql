@@ -13,7 +13,7 @@ func main() {
 
 	router.HandleFunc("/api/diary/findall", diary.FindAll).Methods("GET")
 	router.HandleFunc("/api/diary/search/{sender}", diary.Search).Methods("GET")
-	router.HandleFunc("/api/diary/insert", diary.Insert).Methods("POST")
+	router.HandleFunc("/api/diary/insert/", diary.Insert).Methods("POST")
 
 	err := http.ListenAndServe(":5000", router)
 	if err != nil {

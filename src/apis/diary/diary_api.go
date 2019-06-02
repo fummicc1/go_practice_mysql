@@ -2,6 +2,7 @@ package diary
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -50,16 +51,19 @@ func Search(response http.ResponseWriter, request *http.Request) {
 func Insert(response http.ResponseWriter, request *http.Request) {
 	body, cannnotGetBodyError := request.GetBody()
 	if cannnotGetBodyError != nil {
+		fmt.Print("cannnotGetBodyError")
 		respondWithError(response, http.StatusBadRequest, cannnotGetBodyError.Error())
 		return
 	}
 	var diary entitles.Diary
 	if err := json.NewDecoder(body).Decode(&diary); err != nil {
+		fmt.Print("cannnotDecodeBodyIntoDiary")
 		respondWithError(response, http.StatusBadRequest, err.Error())
 		return
 	}
 	db, err1 := config.GetDB()
 	if err1 != nil {
+		fmt.Print("cannnotGetDB")
 		respondWithError(response, http.StatusBadRequest, err1.Error())
 	} else {
 		diaryModel := models.DiaryModel{
@@ -67,6 +71,7 @@ func Insert(response http.ResponseWriter, request *http.Request) {
 		}
 		err2 := diaryModel.Insert(diary.Sender, diary.Title, diary.Content)
 		if err2 != nil {
+			fmt.Print("cannotInsertDiaryIntoDiaryTable")
 			respondWithError(response, http.StatusBadRequest, err2.Error())
 		} else {
 			respondWithJson(response, http.StatusOK, diary)
