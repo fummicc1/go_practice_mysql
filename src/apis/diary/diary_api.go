@@ -58,11 +58,11 @@ func Insert(response http.ResponseWriter, request *http.Request) {
 		diaryModel := models.DiaryModel{
 			DB: db,
 		}
-		diaries, err2 := diaryModel.Insert(sender, title, content)
+		diary, err2 := diaryModel.Insert(sender, title, content)
 		if err2 != nil {
 			respondWithError(response, http.StatusBadRequest, err2.Error())
 		} else {
-
+			respondWithJson(response, http.StatusOK, diary)
 		}
 	}
 }
