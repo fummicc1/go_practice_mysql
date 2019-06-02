@@ -71,11 +71,11 @@ func (diaryModel DiaryModel) Insert(sender string, title string, content string)
 	}
 	result, err2 := insert.Exec(sender, title, content)
 	if err2 != nil {
-		return nil, err2
+		return entitles.Diary.CreateErrorDiary(), err2
 	}
 	id, err3 := result.LastInsertId()
 	if err3 != nil {
-		return nil, err3
+		return entitles.Diary.CreateErrorDiary(), err3
 	}
 	diary = entitles.Diary{
 		Id:      id,

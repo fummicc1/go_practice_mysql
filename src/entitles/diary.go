@@ -9,7 +9,7 @@ type Diary struct {
 	Content string `json:"content"`
 }
 
-func CreateErrorDiary() Diary {
+func (diary Diary) CreateErrorDiary() Diary {
 	return Diary{
 		Id:      0,
 		Sender:  "",
